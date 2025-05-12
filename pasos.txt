@@ -1,0 +1,35 @@
+
+#instalar node.js
+
+npx create-next-app@latest ecommerce-app --typescript
+
+npm install mongoose
+
+npm install dotenv
+
+#dependencies 
+
+npm install mongoose next-auth @next-auth/mongodb-adapter
+
+npm install cloudinary
+
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+#db connection
+
+MONGODB_URI=mongodb://localhost:27017/ecommerce
+
+#uploading images using formidable
+
+npm install formidable
+npm install --save-dev @types/formidable
+
+#run
+
+npm run dev -- run the project
+npx tailwindcss init -p
+
+
+
+
