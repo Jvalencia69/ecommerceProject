@@ -6,6 +6,10 @@ const productSchema = new Schema({
   price: Number,
   description: String,
   imageUrl: String,
-}, { timestamps: true })
+}, 
+{ 
+  timestamps: true 
+}
+)
 
 export const Product = mongoose.models.Product || mongoose.model("Product", productSchema)

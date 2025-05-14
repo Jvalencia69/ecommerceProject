@@ -58,6 +58,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(saved, { status: 201 })
   } catch (error) {
     console.error("Upload error:", error)
-    return NextResponse.json({ message: "Error uploading product" }, { status: 500 })
+    return NextResponse.json({ message: "Error subiendo producto" }, { status: 500 })
   }
 }
