@@ -20,7 +20,7 @@ export default function Navbar() {
           </>
         )}
 
-        {user?.role === 'cliente' && (
+        {user?.role === 'client' && (
           <Link href="/carrito" className="relative">
             🛒
             {/* Aquí puedes mostrar un contador con la cantidad */}
