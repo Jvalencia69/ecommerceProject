@@ -7,13 +7,21 @@ import { useRouter } from 'next/navigation'
 export default function LoginPage() {
   const { login } = useContext(AuthContext)!
   const router = useRouter()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('') 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await login(email, password)
-    router.push('/')
+    setError('') 
+
+    try {
+      await login(email, password)
+      router.push('/')
+    } catch (err: any) {
+      setError(err.message || 'Error al iniciar sesión')
+    }
   }
 
   const handleRegisterRedirect = () => {
@@ -23,6 +31,13 @@ export default function LoginPage() {
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-12 space-y-4">
       <h1 className="text-2xl font-bold">Iniciar Sesión</h1>
+
+      {error && (
+        <div className="bg-red-100 text-red-700 px-4 py-2 rounded">
+          {error}
+        </div>
+      )}
+
       <input
         type="email"
         value={email}

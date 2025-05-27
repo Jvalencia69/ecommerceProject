@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthProvider";
 import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
+
 
 type Product = {
   _id: string;
@@ -17,6 +19,7 @@ type Product = {
 
 export default function ProductCard({ product }: { product: any }) {
   const { user } = useContext(AuthContext)!;
+  const router = useRouter();
   const { addToCart } = useCart();
   const handleDelete = async () => {
     const confirm = window.confirm("¿Estás seguro de eliminar este producto?");
@@ -34,12 +37,18 @@ export default function ProductCard({ product }: { product: any }) {
   };
 
   const handleAddToCart = () => {
+    if (!user) {
+      router.push("/auth/login")
+      return
+    }
+
     addToCart({
       productId: product._id,
       name: product.name,
       price: product.price,
       quantity: 1,
     });
+    alert("Producto añadido al carrito.")
   };
 
   return (
