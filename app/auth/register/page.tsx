@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 export default function RegistroPage() {
+  const [userName, setUserName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [mensaje, setMensaje] = useState("")
@@ -14,7 +15,7 @@ export default function RegistroPage() {
 
     const res = await fetch("/api/register", {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ userName, email, password }),
       headers: { "Content-Type": "application/json" }
     })
 
@@ -31,6 +32,14 @@ export default function RegistroPage() {
     <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow">
       <h1 className="text-2xl font-bold mb-4">Crear cuenta</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input 
+        type="userName"
+        placeholder="Usuario"
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
+        className="border p-2 rounded"
+        required
+        />
         <input
           type="email"
           placeholder="Correo"

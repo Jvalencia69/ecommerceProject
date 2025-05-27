@@ -5,18 +5,27 @@ import bcrypt from "bcryptjs"
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json()
+    const { userName, email, password } = await req.json()
+
+    if(!userName || !email || !password) {
+       return NextResponse.json({ message: "Todos los campos son obligatorios" }, { status: 400 })
+    }
 
     await connectDB()
 
-    const existe = await User.findOne({ email })
-    if (existe) {
+    const existeUserName = await User.findOne({ userName })
+    if (existeUserName) {
+      return NextResponse.json({ message: "El usuario ya está registrado" }, { status: 400 })
+    }
+
+    const existeEmail = await User.findOne({ email })
+    if (existeEmail) {
       return NextResponse.json({ message: "El correo ya está registrado" }, { status: 400 })
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    const newUser = new User({ email, password: hashedPassword })
+    const newUser = new User({ userName, email, password: hashedPassword })
     await newUser.save()
 
     return NextResponse.json({ message: "Usuario creado correctamente" })

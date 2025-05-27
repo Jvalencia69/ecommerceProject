@@ -4,6 +4,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 
 interface User {
+  userName: string
   email: string
   role: 'admin' | 'cliente'
 }
@@ -24,12 +25,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (storedUser) setUser(JSON.parse(storedUser))
   }, [])
 
-  const login = async (email: string, password: string) => {
-    const role: User['role'] = email === "admin@tecno.com" ? "admin" : "cliente"
-    const newUser: User = { email, role }
-    setUser(newUser)
-    localStorage.setItem("user", JSON.stringify(newUser))
-  }
+const login = async (email: string, password: string) => {
+  const res = await fetch("/api/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+    headers: { "Content-Type": "application/json" }
+  })
+
+  if (!res.ok) throw new Error("Login failed")
+
+  const data = await res.json()
+  const newUser = { email, role: data.role }
+  setUser(newUser)
+  localStorage.setItem("user", JSON.stringify(newUser))
+}
 
   const logout = () => {
     setUser(null)

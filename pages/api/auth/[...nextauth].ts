@@ -22,7 +22,7 @@ export default NextAuth({
         const isValid = await bcrypt.compare(credentials!.password, user.password)
         if (!isValid) throw new Error("Contraseña incorrecta")
 
-        return { id: user._id, email: user.email, role: user.role }
+        return { id: user._id, alias: user.userName, email: user.email, role: user.role }
       }
     })
   ],
